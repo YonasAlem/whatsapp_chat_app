@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:whatsapp_chat_app/features/welcome/pages/welcome_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -9,10 +10,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'WhatsApp',
-      home: Scaffold(),
+      theme: ThemeData.dark(),
+      home: const WelcomePage(),
     );
   }
 }

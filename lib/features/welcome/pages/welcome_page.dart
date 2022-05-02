@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:whatsapp_chat_app/common/extensions/custom_theme_extension.dart';
 import 'package:whatsapp_chat_app/common/utils/coloors.dart';
 import 'package:whatsapp_chat_app/common/widgets/custom_elevated_button.dart';
 import 'package:whatsapp_chat_app/features/welcome/widgets/language_button.dart';
@@ -10,7 +11,6 @@ class WelcomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Coloors.backgroundDark,
       body: Column(
         children: [
           Expanded(
@@ -19,7 +19,7 @@ class WelcomePage extends StatelessWidget {
               child: Image.asset(
                 'assets/images/circle.png',
                 alignment: Alignment.bottomCenter,
-                color: Coloors.greenDark,
+                color: context.theme.circleImageColor,
               ),
             ),
           ),

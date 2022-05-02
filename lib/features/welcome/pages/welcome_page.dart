@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:whatsapp_chat_app/common/extensions/custom_theme_extension.dart';
-import 'package:whatsapp_chat_app/common/utils/coloors.dart';
 import 'package:whatsapp_chat_app/common/widgets/custom_elevated_button.dart';
 import 'package:whatsapp_chat_app/features/welcome/widgets/language_button.dart';
 import 'package:whatsapp_chat_app/features/welcome/widgets/privacy_and_terms.dart';

@@ -8,8 +8,13 @@ Route<dynamic> onGenerateRoute(RouteSettings settings) {
     case LoginPage.id:
       return MaterialPageRoute(builder: (context) => const LoginPage());
     case VerificationPage.id:
-      final String phone = settings.arguments as String;
-      return MaterialPageRoute(builder: (context) => VerificationPage(phoneNumber: phone));
+      final Map args = settings.arguments as Map;
+      return MaterialPageRoute(
+        builder: (context) => VerificationPage(
+          phoneNumber: args['phone'],
+          verificationId: args['verificationId'],
+        ),
+      );
     case UserInfoPage.id:
       return MaterialPageRoute(builder: (context) => const UserInfoPage());
     default:

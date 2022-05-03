@@ -37,6 +37,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   flutter_native_splash: ^2.2.8
+  country_picker: ^2.0.16
 
 flutter_native_splash:
   color: "#FFFFFF"

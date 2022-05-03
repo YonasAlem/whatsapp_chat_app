@@ -27,7 +27,7 @@ class CustomIconButton extends StatelessWidget {
       constraints: BoxConstraints(minWidth: minWidth ?? 40),
       icon: Icon(
         icon,
-        color: iconColor ?? context.theme.greyColor,
+        color: iconColor ?? context.color.greyColor,
       ),
     );
   }

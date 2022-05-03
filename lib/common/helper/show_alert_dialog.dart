@@ -8,7 +8,7 @@ showAlertDialog({required BuildContext context, required String message, String?
       return AlertDialog(
         content: Text(
           message,
-          style: TextStyle(color: context.theme.greyColor, fontSize: 15),
+          style: TextStyle(color: context.color.greyColor, fontSize: 15),
         ),
         contentPadding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
         actions: [
@@ -20,7 +20,7 @@ showAlertDialog({required BuildContext context, required String message, String?
             child: Text(
               btnText ?? 'OK',
               style: TextStyle(
-                color: context.theme.circleImageColor,
+                color: context.color.circleImageColor,
               ),
             ),
           ),

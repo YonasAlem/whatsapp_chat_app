@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:whatsapp_chat_app/common/utils/coloors.dart';
 
 extension ExtendedTheme on BuildContext {
-  CustomThemeExtension get theme => Theme.of(this).extension<CustomThemeExtension>()!;
+  CustomThemeExtension get color => Theme.of(this).extension<CustomThemeExtension>()!;
 }
 
 class CustomThemeExtension extends ThemeExtension<CustomThemeExtension> {

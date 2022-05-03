@@ -17,9 +17,9 @@ class LanguageButton extends StatelessWidget {
             children: [
               Container(
                 height: 4,
-                width: 30,
+                width: 25,
                 decoration: BoxDecoration(
-                  color: context.theme.greyColor!.withOpacity(0.4),
+                  color: context.color.greyColor!.withOpacity(0.2),
                   borderRadius: BorderRadius.circular(5),
                 ),
               ),
@@ -43,7 +43,7 @@ class LanguageButton extends StatelessWidget {
               ),
               const SizedBox(height: 10),
               Divider(
-                color: context.theme.greyColor!.withOpacity(0.3),
+                color: context.color.greyColor!.withOpacity(0.3),
                 thickness: 0.5,
               ),
               RadioListTile(
@@ -54,7 +54,7 @@ class LanguageButton extends StatelessWidget {
                 title: const Text('English'),
                 subtitle: Text(
                   '(phone\'s language)',
-                  style: TextStyle(color: context.theme.greyColor),
+                  style: TextStyle(color: context.color.greyColor),
                 ),
               ),
               RadioListTile(
@@ -65,7 +65,7 @@ class LanguageButton extends StatelessWidget {
                 title: const Text('አማርኛ'),
                 subtitle: Text(
                   'Amharic',
-                  style: TextStyle(color: context.theme.greyColor),
+                  style: TextStyle(color: context.color.greyColor),
                 ),
               ),
             ],
@@ -78,13 +78,13 @@ class LanguageButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: context.theme.langBtnBgColor,
+      color: context.color.langBtnBgColor,
       borderRadius: BorderRadius.circular(20),
       child: InkWell(
         onTap: () => displayModalBottomSheet(context),
         borderRadius: BorderRadius.circular(20),
         splashFactory: NoSplash.splashFactory,
-        highlightColor: context.theme.langBtnHighlightColor,
+        highlightColor: context.color.langBtnHighlightColor,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           child: Row(

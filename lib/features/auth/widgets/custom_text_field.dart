@@ -39,13 +39,14 @@ class CustomTextField extends StatelessWidget {
       keyboardType: readOnly == null ? keyBoardType : null,
       onChanged: onChanged,
       autofocus: autoFocus ?? false,
+      cursorColor: Coloors.greenDark,
       style: TextStyle(fontSize: fontSize),
       decoration: InputDecoration(
         isDense: true,
         prefixText: prefixText,
         suffix: suffixIcon,
         hintText: hintText,
-        hintStyle: TextStyle(color: context.theme.greyColor),
+        hintStyle: TextStyle(color: context.color.greyColor),
         enabledBorder: const UnderlineInputBorder(
           borderSide: BorderSide(color: Coloors.greenDark),
         ),

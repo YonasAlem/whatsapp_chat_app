@@ -23,7 +23,7 @@ class WelcomePage extends StatelessWidget {
               child: Image.asset(
                 'assets/images/circle.png',
                 alignment: Alignment.bottomCenter,
-                color: context.theme.circleImageColor,
+                color: context.color.circleImageColor,
               ),
             ),
           ),

@@ -41,7 +41,7 @@ class _VerificationPageState extends State<VerificationPage> {
         elevation: 0,
         title: Text(
           'Verify your number',
-          style: TextStyle(color: context.theme.authAppbarTextColor),
+          style: TextStyle(color: context.color.authAppbarTextColor),
         ),
         centerTitle: true,
         actions: [
@@ -60,7 +60,7 @@ class _VerificationPageState extends State<VerificationPage> {
               child: RichText(
                 textAlign: TextAlign.center,
                 text: TextSpan(
-                  style: TextStyle(color: context.theme.greyColor, height: 1.5),
+                  style: TextStyle(color: context.color.greyColor, height: 1.5),
                   children: [
                     TextSpan(
                       text: "You've tried to register ${widget.phoneNumber}. "
@@ -68,7 +68,7 @@ class _VerificationPageState extends State<VerificationPage> {
                     ),
                     TextSpan(
                       text: "Wrong number?",
-                      style: TextStyle(color: context.theme.blueColor),
+                      style: TextStyle(color: context.color.blueColor),
                     ),
                   ],
                 ),
@@ -89,29 +89,27 @@ class _VerificationPageState extends State<VerificationPage> {
             const SizedBox(height: 20),
             Text(
               'Enter 6-digit code',
-              style: TextStyle(color: context.theme.greyColor),
+              style: TextStyle(color: context.color.greyColor),
             ),
             const SizedBox(height: 30),
             Row(
               children: [
-                Icon(Icons.message, color: context.theme.greyColor),
+                Icon(Icons.message, color: context.color.greyColor),
                 const SizedBox(width: 20),
                 Text(
                   'Resend SMS',
-                  style: TextStyle(color: context.theme.greyColor),
+                  style: TextStyle(color: context.color.greyColor),
                 ),
               ],
             ),
-            const SizedBox(height: 10),
-            Divider(color: context.theme.blueColor!.withOpacity(0.2)),
-            const SizedBox(height: 10),
+            Divider(color: context.color.blueColor!.withOpacity(0.2)),
             Row(
               children: [
-                Icon(Icons.phone, color: context.theme.greyColor),
+                Icon(Icons.phone, color: context.color.greyColor),
                 const SizedBox(width: 20),
                 Text(
                   'Call Me',
-                  style: TextStyle(color: context.theme.greyColor),
+                  style: TextStyle(color: context.color.greyColor),
                 ),
                 const SizedBox(height: 40),
               ],

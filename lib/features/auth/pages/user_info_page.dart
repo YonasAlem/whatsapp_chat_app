@@ -20,7 +20,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
         elevation: 0,
         title: Text(
           'Profile info',
-          style: TextStyle(color: context.theme.authAppbarTextColor),
+          style: TextStyle(color: context.color.authAppbarTextColor),
         ),
         centerTitle: true,
       ),
@@ -31,21 +31,21 @@ class _UserInfoPageState extends State<UserInfoPage> {
             Text(
               'Please provide your name and an optional profile photo',
               textAlign: TextAlign.center,
-              style: TextStyle(color: context.theme.greyColor),
+              style: TextStyle(color: context.color.greyColor),
             ),
             const SizedBox(height: 40),
             Container(
               padding: const EdgeInsets.all(26),
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: context.theme.photoIconBgColor,
+                color: context.color.photoIconBgColor,
               ),
               child: Padding(
                 padding: const EdgeInsets.only(bottom: 3, right: 3),
                 child: Icon(
                   Icons.add_a_photo_rounded,
                   size: 48,
-                  color: context.theme.photoIconColor,
+                  color: context.color.photoIconColor,
                 ),
               ),
             ),
@@ -61,7 +61,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
                   ),
                 ),
                 const SizedBox(width: 10),
-                Icon(Icons.emoji_emotions_outlined, color: context.theme.photoIconColor),
+                Icon(Icons.emoji_emotions_outlined, color: context.color.photoIconColor),
                 const SizedBox(width: 20),
               ],
             ),

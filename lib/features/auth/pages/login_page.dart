@@ -71,29 +71,33 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   }
 
   sendCodeToPhone() {
-    final phone = phoneNumberController.text;
-    final code = countryCodeController.text;
+    final phoneNumber = phoneNumberController.text;
+    final countryCode = countryCodeController.text;
     final countryName = countryNameController.text;
-    if (phone.isEmpty) {
+
+    // check phone number before requesting login
+    if (phoneNumber.isEmpty) {
       return showAlertDialog(
         context: context,
         message: 'Please enter your phone number',
       );
-    } else if (phone.length < 9) {
+    } else if (phoneNumber.length < 9) {
       return showAlertDialog(
         context: context,
         message: "The phone number you entered is too short for the country: $countryName.\n\n"
             "Include your area code if you haven't",
       );
-    } else if (phone.length > 10) {
+    } else if (phoneNumber.length > 10) {
       return showAlertDialog(
         context: context,
         message: 'The phone number you entered is too long for the country: $countryName.',
       );
     }
+
+    // request a verification code
     ref.read(authControllerProvider).sendCodeToPhone(
           context: context,
-          phone: "+$code$phone",
+          phone: "+$countryCode$phoneNumber",
         );
   }
 

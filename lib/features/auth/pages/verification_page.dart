@@ -107,6 +107,7 @@ class _VerificationPageState extends State<VerificationPage> {
                   'Call Me',
                   style: TextStyle(color: context.theme.greyColor),
                 ),
+                const SizedBox(height: 40),
               ],
             ),
           ],

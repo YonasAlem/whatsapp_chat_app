@@ -8,6 +8,7 @@ import 'package:whatsapp_chat_app/common/widgets/custom_icon_button.dart';
 import 'package:whatsapp_chat_app/features/auth/widgets/custom_text_field.dart';
 
 class LoginPage extends StatefulWidget {
+  static const String id = 'login';
   const LoginPage({super.key});
 
   @override

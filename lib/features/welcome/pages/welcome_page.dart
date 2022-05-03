@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:whatsapp_chat_app/common/extensions/custom_theme_extension.dart';
 import 'package:whatsapp_chat_app/common/widgets/custom_elevated_button.dart';
+import 'package:whatsapp_chat_app/features/auth/pages/login_page.dart';
 import 'package:whatsapp_chat_app/features/welcome/widgets/language_button.dart';
 import 'package:whatsapp_chat_app/features/welcome/widgets/privacy_and_terms.dart';
 
 class WelcomePage extends StatelessWidget {
   const WelcomePage({super.key});
+
+  navigateToLoginPage(context) {
+    Navigator.pushNamedAndRemoveUntil(context, LoginPage.id, (route) => false);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +40,7 @@ class WelcomePage extends StatelessWidget {
                 ),
                 const PrivacyAndTerms(),
                 CustomElevatedButton(
-                  onPressed: () {},
+                  onPressed: () => navigateToLoginPage(context),
                   text: "AGREE AND CONTINUE",
                 ),
                 const SizedBox(height: 50),

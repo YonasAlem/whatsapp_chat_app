@@ -2,8 +2,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:whatsapp_chat_app/common/theme/dark_theme.dart';
 import 'package:whatsapp_chat_app/common/theme/light_theme.dart';
-import 'package:whatsapp_chat_app/features/auth/pages/user_info_page.dart';
+import 'package:whatsapp_chat_app/features/welcome/pages/welcome_page.dart';
 import 'package:whatsapp_chat_app/firebase_options.dart';
+import 'package:whatsapp_chat_app/routes/routes.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,7 +25,8 @@ class MyApp extends StatelessWidget {
       theme: lightTheme(),
       darkTheme: darkTheme(),
       themeMode: ThemeMode.system,
-      home: const UserInfoPage(),
+      home: const WelcomePage(),
+      onGenerateRoute: onGenerateRoute,
     );
   }
 }

@@ -4,6 +4,7 @@ import 'package:whatsapp_chat_app/common/widgets/custom_elevated_button.dart';
 import 'package:whatsapp_chat_app/features/auth/widgets/custom_text_field.dart';
 
 class UserInfoPage extends StatefulWidget {
+  static const String id = 'user-info';
   const UserInfoPage({super.key});
 
   @override

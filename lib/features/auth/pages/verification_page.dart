@@ -4,6 +4,7 @@ import 'package:whatsapp_chat_app/common/widgets/custom_icon_button.dart';
 import 'package:whatsapp_chat_app/features/auth/widgets/custom_text_field.dart';
 
 class VerificationPage extends StatefulWidget {
+  static const String id = 'verification';
   const VerificationPage({super.key, required this.phoneNumber});
 
   final String phoneNumber;

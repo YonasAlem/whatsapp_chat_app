@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:whatsapp_chat_app/common/extensions/custom_theme_extension.dart';
 import 'package:whatsapp_chat_app/common/helper/show_alert_dialog.dart';
@@ -9,20 +10,23 @@ import 'package:whatsapp_chat_app/common/utils/coloors.dart';
 import 'package:whatsapp_chat_app/common/widgets/custom_elevated_button.dart';
 import 'package:whatsapp_chat_app/common/widgets/my_icon_button.dart';
 import 'package:whatsapp_chat_app/common/widgets/short_h_bar.dart';
+import 'package:whatsapp_chat_app/features/auth/controllers/auth_controller.dart';
 import 'package:whatsapp_chat_app/features/auth/pages/image_picker_page.dart';
 import 'package:whatsapp_chat_app/features/auth/widgets/custom_text_field.dart';
 
-class UserInfoPage extends StatefulWidget {
+class UserInfoPage extends ConsumerStatefulWidget {
   static const String id = 'user-info';
   const UserInfoPage({super.key});
 
   @override
-  State<UserInfoPage> createState() => _UserInfoPageState();
+  ConsumerState<UserInfoPage> createState() => _UserInfoPageState();
 }
 
-class _UserInfoPageState extends State<UserInfoPage> {
+class _UserInfoPageState extends ConsumerState<UserInfoPage> {
   File? imageCamera;
   Uint8List? imageGallery;
+
+  late TextEditingController usernameController;
 
   pickImageFromCamera() async {
     try {
@@ -136,6 +140,33 @@ class _UserInfoPageState extends State<UserInfoPage> {
     );
   }
 
+  saveUserDataToFirebase() async {
+    String username = usernameController.text;
+    if (username.isEmpty) {
+      return showAlertDialog(context: context, message: 'Please provide a username');
+    } else if (username.length < 3 || username.length > 20) {
+      return showAlertDialog(context: context, message: 'A username length should between 3-20');
+    }
+    ref.read(authControllerProvider).saveUserInfoToFirestore(
+          username: username,
+          profileImage: imageCamera ?? imageGallery ?? '',
+          context: context,
+          mounted: mounted,
+        );
+  }
+
+  @override
+  void initState() {
+    usernameController = TextEditingController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    usernameController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -218,7 +249,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: CustomElevatedButton(
-        onPressed: () {},
+        onPressed: saveUserDataToFirebase,
         text: 'NEXT',
         buttonWidth: 90,
       ),

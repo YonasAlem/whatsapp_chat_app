@@ -3,8 +3,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatsapp_chat_app/common/helper/show_alert_dialog.dart';
+import 'package:whatsapp_chat_app/common/repository/firebase_storage_repository.dart';
 import 'package:whatsapp_chat_app/features/auth/pages/user_info_page.dart';
 import 'package:whatsapp_chat_app/features/auth/pages/verification_page.dart';
+import 'package:whatsapp_chat_app/features/home/pages/home_page.dart';
+import 'package:whatsapp_chat_app/models/user_model.dart';
 
 final authRepositoryProvider = Provider((ref) {
   return AuthRepository(
@@ -18,6 +21,45 @@ class AuthRepository {
   final FirebaseFirestore firestore;
 
   AuthRepository({required this.auth, required this.firestore});
+
+  void saveUserInfoToFirestore({
+    required String username,
+    required var profileImage,
+    required ProviderRef ref,
+    required BuildContext context,
+    required bool mounted,
+  }) async {
+    try {
+      String uid = auth.currentUser!.uid;
+      String profileImageUrl = '';
+
+      if (profileImage != null) {
+        profileImageUrl = await ref.read(firebaseStorageRepositoryProvider).storeFileToFirebase(
+              'profileImage/$uid',
+              profileImage,
+            );
+      }
+
+      UserModel user = UserModel(
+        username: username,
+        uid: uid,
+        profileImageUrl: profileImageUrl,
+        active: true,
+        phoneNumber: auth.currentUser!.phoneNumber!,
+        groupId: [],
+      );
+
+      await firestore.collection('users').doc(uid).set(user.toMap());
+
+      if (!mounted) return;
+      Navigator.of(context).pushNamedAndRemoveUntil(
+        HomePage.id,
+        (route) => false,
+      );
+    } catch (e) {
+      showAlertDialog(context: context, message: e.toString());
+    }
+  }
 
   void verifiySmsCode({
     required BuildContext context,

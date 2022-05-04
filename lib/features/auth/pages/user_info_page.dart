@@ -2,7 +2,9 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:whatsapp_chat_app/common/extensions/custom_theme_extension.dart';
+import 'package:whatsapp_chat_app/common/helper/show_alert_dialog.dart';
 import 'package:whatsapp_chat_app/common/utils/coloors.dart';
 import 'package:whatsapp_chat_app/common/widgets/custom_elevated_button.dart';
 import 'package:whatsapp_chat_app/common/widgets/my_icon_button.dart';
@@ -21,6 +23,18 @@ class UserInfoPage extends StatefulWidget {
 class _UserInfoPageState extends State<UserInfoPage> {
   File? imageCamera;
   Uint8List? imageGallery;
+
+  pickImageFromCamera() async {
+    try {
+      final image = await ImagePicker().pickImage(source: ImageSource.camera);
+      setState(() {
+        imageCamera = File(image!.path);
+        imageGallery = null;
+      });
+    } catch (e) {
+      showAlertDialog(context: context, message: e.toString());
+    }
+  }
 
   openImagePickerBottomSheet() {
     return showModalBottomSheet(
@@ -56,7 +70,11 @@ class _UserInfoPageState extends State<UserInfoPage> {
             Row(
               children: [
                 const SizedBox(width: 20),
-                buildImagePickerIcon(() {}, Icons.camera_alt_rounded, 'Camera'),
+                buildImagePickerIcon(() async {
+                  await pickImageFromCamera();
+                  if (!mounted) return;
+                  Navigator.pop(context);
+                }, Icons.camera_alt_rounded, 'Camera'),
                 const SizedBox(width: 20),
                 buildImagePickerIcon(() async {
                   Navigator.pop(context);
@@ -140,8 +158,13 @@ class _UserInfoPageState extends State<UserInfoPage> {
                       color: imageGallery == null
                           ? Colors.transparent
                           : context.color.greyColor!.withOpacity(0.4)),
-                  image: imageGallery != null
-                      ? DecorationImage(image: MemoryImage(imageGallery!), fit: BoxFit.cover)
+                  image: imageGallery != null || imageCamera != null
+                      ? DecorationImage(
+                          image: imageGallery != null
+                              ? MemoryImage(imageGallery!) as ImageProvider
+                              : FileImage(imageCamera!),
+                          fit: BoxFit.cover,
+                        )
                       : null,
                 ),
                 child: Padding(
@@ -149,7 +172,9 @@ class _UserInfoPageState extends State<UserInfoPage> {
                   child: Icon(
                     Icons.add_a_photo_rounded,
                     size: 48,
-                    color: imageGallery == null ? context.color.photoIconColor : Colors.transparent,
+                    color: imageGallery == null && imageCamera == null
+                        ? context.color.photoIconColor
+                        : Colors.transparent,
                   ),
                 ),
               ),

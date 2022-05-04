@@ -55,6 +55,17 @@ class _UserInfoPageState extends State<UserInfoPage> {
                   ),
                 ),
                 const Spacer(),
+                if (imageCamera != null || imageGallery != null)
+                  MyIconButton(
+                    onTap: () {
+                      setState(() {
+                        imageCamera = null;
+                        imageGallery = null;
+                      });
+                      Navigator.pop(context);
+                    },
+                    icon: Icons.delete,
+                  ),
                 MyIconButton(
                   onTap: () => Navigator.pop(context),
                   icon: Icons.close,
@@ -150,31 +161,38 @@ class _UserInfoPageState extends State<UserInfoPage> {
             GestureDetector(
               onTap: openImagePickerBottomSheet,
               child: Container(
-                padding: const EdgeInsets.all(26),
+                padding: const EdgeInsets.all(2),
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: context.color.photoIconBgColor,
                   border: Border.all(
-                      color: imageGallery == null
-                          ? Colors.transparent
-                          : context.color.greyColor!.withOpacity(0.4)),
-                  image: imageGallery != null || imageCamera != null
-                      ? DecorationImage(
-                          image: imageGallery != null
-                              ? MemoryImage(imageGallery!) as ImageProvider
-                              : FileImage(imageCamera!),
-                          fit: BoxFit.cover,
-                        )
-                      : null,
+                    color: imageGallery == null
+                        ? Colors.transparent
+                        : context.color.greyColor!.withOpacity(0.4),
+                  ),
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom: 3, right: 3),
-                  child: Icon(
-                    Icons.add_a_photo_rounded,
-                    size: 48,
-                    color: imageGallery == null && imageCamera == null
-                        ? context.color.photoIconColor
-                        : Colors.transparent,
+                child: Container(
+                  padding: const EdgeInsets.all(26),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: context.color.photoIconBgColor,
+                    image: imageGallery != null || imageCamera != null
+                        ? DecorationImage(
+                            image: imageGallery != null
+                                ? MemoryImage(imageGallery!) as ImageProvider
+                                : FileImage(imageCamera!),
+                            fit: BoxFit.cover,
+                          )
+                        : null,
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 3, right: 3),
+                    child: Icon(
+                      Icons.add_a_photo_rounded,
+                      size: 48,
+                      color: imageGallery == null && imageCamera == null
+                          ? context.color.photoIconColor
+                          : Colors.transparent,
+                    ),
                   ),
                 ),
               ),

@@ -87,6 +87,10 @@ class _ImagePickerPageState extends State<ImagePickerPage> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         elevation: 0,
+        leading: MyIconButton(
+          icon: Icons.arrow_back,
+          onTap: () => Navigator.pop(context),
+        ),
         title: Text(
           'WhatsApp',
           style: TextStyle(color: context.color.authAppbarTextColor),

@@ -18,18 +18,20 @@ class _ImagePickerPageState extends State<ImagePickerPage> {
   int? lastPage;
 
   handleScrollEvent(ScrollNotification scroll) {
-    if (scroll.metrics.pixels / scroll.metrics.maxScrollExtent > 0.33) {
-      if (currentPage != lastPage) {
-        // fetchAllPhotos();
-      }
-    }
+    if (scroll.metrics.pixels / scroll.metrics.maxScrollExtent <= 0.33) return;
+    if (currentPage == lastPage) return;
+    fetchAllImages();
   }
 
   fetchAllImages() async {
+    lastPage = currentPage;
     final permission = await PhotoManager.requestPermissionExtend();
     if (!permission.isAuth) return PhotoManager.openSetting();
-    List<AssetPathEntity> albums = await PhotoManager.getAssetPathList(type: RequestType.image);
-    List<AssetEntity> photos = await albums[0].getAssetListPaged(page: 0, size: 200);
+    List<AssetPathEntity> albums = await PhotoManager.getAssetPathList(
+      type: RequestType.image,
+      onlyAll: true,
+    );
+    List<AssetEntity> photos = await albums[0].getAssetListPaged(page: currentPage, size: 24);
     List<Widget> temp = [];
     for (var asset in photos) {
       temp.add(
@@ -40,13 +42,13 @@ class _ImagePickerPageState extends State<ImagePickerPage> {
           builder: (BuildContext context, snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
               return ClipRRect(
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(5),
                 child: InkWell(
                   onTap: () => Navigator.of(context).pop(snapshot.data),
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(5),
                   splashFactory: NoSplash.splashFactory,
                   child: Container(
-                    margin: const EdgeInsets.all(5.0),
+                    margin: const EdgeInsets.all(2),
                     decoration: BoxDecoration(
                       border: Border.all(
                         color: context.color.greyColor!.withOpacity(0.4),

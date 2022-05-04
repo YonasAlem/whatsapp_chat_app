@@ -1,9 +1,13 @@
+import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:whatsapp_chat_app/common/extensions/custom_theme_extension.dart';
 import 'package:whatsapp_chat_app/common/utils/coloors.dart';
 import 'package:whatsapp_chat_app/common/widgets/custom_elevated_button.dart';
 import 'package:whatsapp_chat_app/common/widgets/my_icon_button.dart';
 import 'package:whatsapp_chat_app/common/widgets/short_h_bar.dart';
+import 'package:whatsapp_chat_app/features/auth/pages/image_picker_page.dart';
 import 'package:whatsapp_chat_app/features/auth/widgets/custom_text_field.dart';
 
 class UserInfoPage extends StatefulWidget {
@@ -15,6 +19,9 @@ class UserInfoPage extends StatefulWidget {
 }
 
 class _UserInfoPageState extends State<UserInfoPage> {
+  File? imageCamera;
+  Uint8List? imageGallery;
+
   openImagePickerBottomSheet() {
     return showModalBottomSheet(
       context: context,
@@ -49,9 +56,21 @@ class _UserInfoPageState extends State<UserInfoPage> {
             Row(
               children: [
                 const SizedBox(width: 20),
-                buildImagePickerIcon(() {}, context, Icons.camera_alt_rounded, 'Camera'),
+                buildImagePickerIcon(() {}, Icons.camera_alt_rounded, 'Camera'),
                 const SizedBox(width: 20),
-                buildImagePickerIcon(() {}, context, Icons.photo_camera_back_rounded, 'Gallery'),
+                buildImagePickerIcon(() async {
+                  Navigator.pop(context);
+                  final image = await Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const ImagePickerPage(),
+                    ),
+                  );
+                  if (image == null) return;
+                  setState(() {
+                    imageGallery = image;
+                    imageCamera = null;
+                  });
+                }, Icons.photo_camera_back_rounded, 'Gallery'),
                 const SizedBox(width: 15),
               ],
             ),
@@ -63,7 +82,10 @@ class _UserInfoPageState extends State<UserInfoPage> {
   }
 
   Column buildImagePickerIcon(
-      VoidCallback onTap, BuildContext context, IconData iconData, String text) {
+    VoidCallback onTap,
+    IconData iconData,
+    String text,
+  ) {
     return Column(
       children: [
         MyIconButton(
@@ -114,13 +136,20 @@ class _UserInfoPageState extends State<UserInfoPage> {
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: context.color.photoIconBgColor,
+                  border: Border.all(
+                      color: imageGallery == null
+                          ? Colors.transparent
+                          : context.color.greyColor!.withOpacity(0.4)),
+                  image: imageGallery != null
+                      ? DecorationImage(image: MemoryImage(imageGallery!), fit: BoxFit.cover)
+                      : null,
                 ),
                 child: Padding(
                   padding: const EdgeInsets.only(bottom: 3, right: 3),
                   child: Icon(
                     Icons.add_a_photo_rounded,
                     size: 48,
-                    color: context.color.photoIconColor,
+                    color: imageGallery == null ? context.color.photoIconColor : Colors.transparent,
                   ),
                 ),
               ),

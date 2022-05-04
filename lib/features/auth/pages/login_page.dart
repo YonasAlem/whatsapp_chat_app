@@ -95,7 +95,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     }
 
     // request a verification code
-    ref.read(authControllerProvider).sendCodeToPhone(
+    ref.read(authControllerProvider).sendSmsCode(
           context: context,
           phone: "+$countryCode$phoneNumber",
         );

@@ -232,8 +232,9 @@ class _UserInfoPageState extends ConsumerState<UserInfoPage> {
             Row(
               children: [
                 const SizedBox(width: 20),
-                const Expanded(
+                Expanded(
                   child: CustomTextField(
+                    controller: usernameController,
                     hintText: 'Type your name here',
                     textAlign: TextAlign.left,
                     autoFocus: true,

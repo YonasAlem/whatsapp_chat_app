@@ -5,7 +5,7 @@ import 'package:whatsapp_chat_app/common/extensions/custom_theme_extension.dart'
 import 'package:whatsapp_chat_app/common/helper/show_alert_dialog.dart';
 import 'package:whatsapp_chat_app/common/utils/coloors.dart';
 import 'package:whatsapp_chat_app/common/widgets/custom_elevated_button.dart';
-import 'package:whatsapp_chat_app/common/widgets/custom_icon_button.dart';
+import 'package:whatsapp_chat_app/common/widgets/my_icon_button.dart';
 import 'package:whatsapp_chat_app/features/auth/controllers/auth_controller.dart';
 import 'package:whatsapp_chat_app/features/auth/widgets/custom_text_field.dart';
 
@@ -113,7 +113,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
         ),
         centerTitle: true,
         actions: [
-          CustomIconButton(
+          MyIconButton(
             onTap: () {},
             icon: Icons.more_vert,
           ),
@@ -177,6 +177,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                       controller: phoneNumberController,
                       hintText: 'phone number',
                       textAlign: TextAlign.left,
+                      autoFocus: true,
                       keyBoardType: TextInputType.number,
                     ),
                   ),

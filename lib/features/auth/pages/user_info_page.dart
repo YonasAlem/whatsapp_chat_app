@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:whatsapp_chat_app/common/extensions/custom_theme_extension.dart';
 import 'package:whatsapp_chat_app/common/utils/coloors.dart';
 import 'package:whatsapp_chat_app/common/widgets/custom_elevated_button.dart';
-import 'package:whatsapp_chat_app/common/widgets/custom_icon_button.dart';
-import 'package:whatsapp_chat_app/common/widgets/icon_button_with_bg.dart';
+import 'package:whatsapp_chat_app/common/widgets/my_icon_button.dart';
 import 'package:whatsapp_chat_app/common/widgets/short_h_bar.dart';
 import 'package:whatsapp_chat_app/features/auth/widgets/custom_text_field.dart';
 
@@ -26,32 +25,32 @@ class _UserInfoPageState extends State<UserInfoPage> {
             const ShortHBar(),
             Row(
               children: [
-                const SizedBox(width: 15),
+                const SizedBox(width: 20),
                 const Text(
-                  'App language',
+                  'Profile photo',
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
                 const Spacer(),
-                CustomIconButton(
+                MyIconButton(
                   onTap: () => Navigator.pop(context),
                   icon: Icons.close,
                 ),
                 const SizedBox(width: 15),
               ],
             ),
-            const SizedBox(height: 10),
             Divider(
               color: context.color.greyColor!.withOpacity(0.3),
               thickness: 0.5,
             ),
+            const SizedBox(height: 5),
             Row(
               children: [
-                const SizedBox(width: 15),
+                const SizedBox(width: 20),
                 buildImagePickerIcon(() {}, context, Icons.camera_alt_rounded, 'Camera'),
-                const SizedBox(width: 15),
+                const SizedBox(width: 20),
                 buildImagePickerIcon(() {}, context, Icons.photo_camera_back_rounded, 'Gallery'),
                 const SizedBox(width: 15),
               ],
@@ -67,13 +66,17 @@ class _UserInfoPageState extends State<UserInfoPage> {
       VoidCallback onTap, BuildContext context, IconData iconData, String text) {
     return Column(
       children: [
-        IconButtonWithBg(
+        MyIconButton(
           onTap: onTap,
-          iconData: iconData,
+          icon: iconData,
           iconColor: Coloors.greenDark,
-          hasBorder: true,
+          minWidth: 50,
+          border: Border.all(
+            color: context.color.greyColor!.withOpacity(0.2),
+            width: 1,
+          ),
         ),
-        const SizedBox(height: 10),
+        const SizedBox(height: 5),
         Text(
           text,
           style: TextStyle(color: context.color.greyColor),

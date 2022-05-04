@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatsapp_chat_app/common/extensions/custom_theme_extension.dart';
-import 'package:whatsapp_chat_app/common/widgets/custom_icon_button.dart';
+import 'package:whatsapp_chat_app/common/widgets/my_icon_button.dart';
 import 'package:whatsapp_chat_app/features/auth/controllers/auth_controller.dart';
 import 'package:whatsapp_chat_app/features/auth/widgets/custom_text_field.dart';
 
@@ -37,8 +37,9 @@ class VerificationPage extends ConsumerWidget {
         ),
         centerTitle: true,
         actions: [
-          CustomIconButton(
+          MyIconButton(
             onTap: () {},
+            // icon: Icons.more_vert,
             icon: Icons.more_vert,
           ),
         ],

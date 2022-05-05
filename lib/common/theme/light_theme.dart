@@ -8,6 +8,7 @@ ThemeData lightTheme() {
   return base.copyWith(
     backgroundColor: Coloors.backgroundLight,
     scaffoldBackgroundColor: Coloors.backgroundLight,
+    primaryColor: Coloors.greenLight,
     extensions: [
       CustomThemeExtension.lightMode,
     ],

@@ -40,14 +40,14 @@ class AuthRepository {
   }) async {
     try {
       String uid = auth.currentUser!.uid;
-      String profileImageUrl = '';
+      String profileImageUrl = profileImage is String ? profileImage : '';
 
       showLoadingDialog(
         context: context,
         message: 'Saving user info...',
       );
 
-      if (profileImage != null) {
+      if (profileImage != null && profileImage is! String) {
         profileImageUrl = await ref.read(firebaseStorageRepositoryProvider).storeFileToFirebase(
               'profileImage/$uid',
               profileImage,
@@ -89,8 +89,13 @@ class AuthRepository {
       );
       final credential = PhoneAuthProvider.credential(verificationId: smsCodeId, smsCode: smsCode);
       await auth.signInWithCredential(credential);
+      UserModel? user = await getCurrentUserInfo();
       if (!mounted) return;
-      Navigator.of(context).pushNamedAndRemoveUntil(UserInfoPage.id, (route) => false);
+      Navigator.of(context).pushNamedAndRemoveUntil(
+        UserInfoPage.id,
+        (route) => false,
+        arguments: user?.profileImageUrl,
+      );
     } on FirebaseAuthException catch (e) {
       Navigator.pop(context);
       showAlertDialog(context: context, message: e.message.toString());

@@ -16,7 +16,12 @@ import 'package:whatsapp_chat_app/features/auth/widgets/custom_text_field.dart';
 
 class UserInfoPage extends ConsumerStatefulWidget {
   static const String id = 'user-info';
-  const UserInfoPage({super.key});
+  const UserInfoPage({
+    super.key,
+    this.profileImageUrl,
+  });
+
+  final String? profileImageUrl;
 
   @override
   ConsumerState<UserInfoPage> createState() => _UserInfoPageState();
@@ -149,7 +154,7 @@ class _UserInfoPageState extends ConsumerState<UserInfoPage> {
     }
     ref.read(authControllerProvider).saveUserInfoToFirestore(
           username: username,
-          profileImage: imageCamera ?? imageGallery ?? '',
+          profileImage: imageCamera ?? imageGallery ?? widget.profileImageUrl ?? '',
           context: context,
           mounted: mounted,
         );
@@ -206,11 +211,16 @@ class _UserInfoPageState extends ConsumerState<UserInfoPage> {
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     color: context.color.photoIconBgColor,
-                    image: imageGallery != null || imageCamera != null
+                    image: imageGallery != null ||
+                            imageCamera != null ||
+                            widget.profileImageUrl != null && widget.profileImageUrl!.isNotEmpty
                         ? DecorationImage(
                             image: imageGallery != null
-                                ? MemoryImage(imageGallery!) as ImageProvider
-                                : FileImage(imageCamera!),
+                                ? MemoryImage(imageGallery!)
+                                : widget.profileImageUrl != null &&
+                                        widget.profileImageUrl!.isNotEmpty
+                                    ? NetworkImage(widget.profileImageUrl!)
+                                    : FileImage(imageCamera!) as ImageProvider,
                             fit: BoxFit.cover,
                           )
                         : null,
@@ -220,7 +230,9 @@ class _UserInfoPageState extends ConsumerState<UserInfoPage> {
                     child: Icon(
                       Icons.add_a_photo_rounded,
                       size: 48,
-                      color: imageGallery == null && imageCamera == null
+                      color: imageGallery == null &&
+                              imageCamera == null &&
+                              widget.profileImageUrl == null
                           ? context.color.photoIconColor
                           : Colors.transparent,
                     ),

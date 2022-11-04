@@ -46,6 +46,8 @@ dependencies:
   photo_manager: ^2.3.0
   image_picker: ^0.8.5+3
   path_provider: ^2.0.11
+  flutter_contacts: ^1.1.5+1
+  url_launcher: ^6.1.6
 
 flutter_native_splash:
   color: "#FFFFFF"

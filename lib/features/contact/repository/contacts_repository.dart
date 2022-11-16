@@ -22,12 +22,14 @@ class ContactsRepository {
     try {
       if (await FlutterContacts.requestPermission()) {
         final userCollection = await firestore.collection('users').get();
-        List<Contact> contacts = await FlutterContacts.getContacts(withProperties: true);
+        List<Contact> contacts =
+            await FlutterContacts.getContacts(withProperties: true);
         bool contactFound = false;
         for (var contact in contacts) {
           for (var firebaseList in userCollection.docs) {
             var firebaseContact = UserModel.fromMap(firebaseList.data());
-            if (contact.phones[0].number.replaceAll(' ', '') == firebaseContact.phoneNumber) {
+            if (contact.phones[0].number.replaceAll(' ', '') ==
+                firebaseContact.phoneNumber) {
               positiveNumbers.add(firebaseContact);
               contactFound = true;
               break;
@@ -40,6 +42,7 @@ class ContactsRepository {
                 uid: '',
                 profileImageUrl: '',
                 active: false,
+                lastSeen: 0,
                 phoneNumber: contact.phones[0].number,
                 groupId: [],
               ),

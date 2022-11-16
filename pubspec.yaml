@@ -48,6 +48,7 @@ dependencies:
   path_provider: ^2.0.11
   flutter_contacts: ^1.1.5+1
   url_launcher: ^6.1.6
+  firebase_database: ^9.1.7
 
 flutter_native_splash:
   color: "#FFFFFF"

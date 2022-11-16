@@ -27,11 +27,17 @@ class _ImagePickerPageState extends State<ImagePickerPage> {
     lastPage = currentPage;
     final permission = await PhotoManager.requestPermissionExtend();
     if (!permission.isAuth) return PhotoManager.openSetting();
+
     List<AssetPathEntity> albums = await PhotoManager.getAssetPathList(
       type: RequestType.image,
       onlyAll: true,
     );
-    List<AssetEntity> photos = await albums[0].getAssetListPaged(page: currentPage, size: 24);
+
+    List<AssetEntity> photos = await albums[0].getAssetListPaged(
+      page: currentPage,
+      size: 24,
+    );
+
     List<Widget> temp = [];
     for (var asset in photos) {
       temp.add(
@@ -109,7 +115,8 @@ class _ImagePickerPageState extends State<ImagePickerPage> {
         },
         child: GridView.builder(
           itemCount: mediaList.length,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 3),
           itemBuilder: (_, index) {
             return mediaList[index];
           },

@@ -6,6 +6,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:whatsapp_chat_app/common/extensions/custom_theme_extension.dart';
 import 'package:whatsapp_chat_app/common/utils/coloors.dart';
 import 'package:whatsapp_chat_app/common/widgets/my_icon_button.dart';
+import 'package:whatsapp_chat_app/features/chat/pages/chat_page.dart';
 import 'package:whatsapp_chat_app/features/contact/controller/contacts_controller.dart';
 import 'package:whatsapp_chat_app/models/user_model.dart';
 
@@ -44,8 +45,10 @@ class ContactsPage extends ConsumerWidget {
           ],
         ),
         actions: [
-          MyIconButton(onTap: () {}, icon: Icons.search, iconColor: Colors.white),
-          MyIconButton(onTap: () {}, icon: Icons.more_vert, iconColor: Colors.white),
+          MyIconButton(
+              onTap: () {}, icon: Icons.search, iconColor: Colors.white),
+          MyIconButton(
+              onTap: () {}, icon: Icons.more_vert, iconColor: Colors.white),
         ],
       ),
       body: ref.watch(getContactsProvider).when(
@@ -56,7 +59,8 @@ class ContactsPage extends ConsumerWidget {
               late UserModel positiveContact;
               late UserModel negativeConact;
               if (index >= contactsList[0].length) {
-                negativeConact = contactsList[1][index - contactsList[0].length];
+                negativeConact =
+                    contactsList[1][index - contactsList[0].length];
               } else {
                 positiveContact = contactsList[0][index];
               }
@@ -66,7 +70,8 @@ class ContactsPage extends ConsumerWidget {
                       children: [
                         if (index == 0)
                           Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 10),
                             child: Text(
                               'Contacts on WhatsApp',
                               style: TextStyle(
@@ -76,12 +81,20 @@ class ContactsPage extends ConsumerWidget {
                             ),
                           ),
                         ListTile(
+                          onTap: () {
+                            Navigator.pushNamed(
+                              context,
+                              ChatPage.id,
+                              arguments: positiveContact,
+                            );
+                          },
                           contentPadding: const EdgeInsets.only(left: 20),
                           dense: true,
                           leading: CircleAvatar(
                             backgroundColor: const Color(0xFF627884),
                             radius: 20,
-                            backgroundImage: positiveContact.profileImageUrl.isNotEmpty
+                            backgroundImage: positiveContact
+                                    .profileImageUrl.isNotEmpty
                                 ? NetworkImage(positiveContact.profileImageUrl)
                                 : null,
                             child: positiveContact.profileImageUrl.isEmpty
@@ -94,7 +107,8 @@ class ContactsPage extends ConsumerWidget {
                           ),
                           title: Text(
                             positiveContact.username,
-                            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                            style: const TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.w500),
                           ),
                           subtitle: Text(
                             'Hey There! I\'m using Whatsapp.',
@@ -111,7 +125,8 @@ class ContactsPage extends ConsumerWidget {
                       children: [
                         if (contactsList[0].length == index)
                           Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 10),
                             child: Text(
                               'Invite to WhatsApp',
                               style: TextStyle(
@@ -149,11 +164,13 @@ class ContactsPage extends ConsumerWidget {
                           ),
                           title: Text(
                             negativeConact.username,
-                            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                            style: const TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.w500),
                           ),
                           trailing: TextButton(
                             onPressed: () {},
-                            style: TextButton.styleFrom(foregroundColor: Coloors.greenDark),
+                            style: TextButton.styleFrom(
+                                foregroundColor: Coloors.greenDark),
                             child: const Text('INVITE'),
                           ),
                         )

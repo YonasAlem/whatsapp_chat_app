@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatsapp_chat_app/common/helper/show_alert_dialog.dart';
@@ -14,17 +15,58 @@ final authRepositoryProvider = Provider((ref) {
   return AuthRepository(
     auth: FirebaseAuth.instance,
     firestore: FirebaseFirestore.instance,
+    database: FirebaseDatabase.instance,
   );
 });
 
 class AuthRepository {
   final FirebaseAuth auth;
   final FirebaseFirestore firestore;
+  final FirebaseDatabase database;
 
-  AuthRepository({required this.auth, required this.firestore});
+  AuthRepository({
+    required this.auth,
+    required this.firestore,
+    required this.database,
+  });
+
+  Stream<UserModel> getUserOnlineStatus(String uid) {
+    return firestore.collection('users').doc(uid).snapshots().map(
+          (event) => UserModel.fromMap(event.data()!),
+        );
+  }
+
+  void updateUserPresence() async {
+    Map<String, dynamic> presenceStatusTrue = {
+      'active': true,
+      'lastSeen': DateTime.now().millisecondsSinceEpoch,
+    };
+    Map<String, dynamic> presenceStatusFalse = {
+      'active': false,
+      'lastSeen': DateTime.now().millisecondsSinceEpoch,
+    };
+
+    final connectedRef = database.ref(".info/connected");
+    connectedRef.onValue.listen((event) async {
+      final connected = event.snapshot.value as bool? ?? false;
+      if (connected) {
+        await database
+            .ref()
+            .child(auth.currentUser!.uid)
+            .update(presenceStatusTrue);
+      } else {
+        database
+            .ref()
+            .child(auth.currentUser!.uid)
+            .onDisconnect()
+            .update(presenceStatusFalse);
+      }
+    });
+  }
 
   Future<UserModel?> getCurrentUserInfo() async {
-    final userInfo = await firestore.collection('users').doc(auth.currentUser?.uid).get();
+    final userInfo =
+        await firestore.collection('users').doc(auth.currentUser?.uid).get();
     UserModel? user;
     if (userInfo.data() == null) return user;
     user = UserModel.fromMap(userInfo.data()!);
@@ -48,7 +90,9 @@ class AuthRepository {
       );
 
       if (profileImage != null && profileImage is! String) {
-        profileImageUrl = await ref.read(firebaseStorageRepositoryProvider).storeFileToFirebase(
+        profileImageUrl = await ref
+            .read(firebaseStorageRepositoryProvider)
+            .storeFileToFirebase(
               'profileImage/$uid',
               profileImage,
             );
@@ -59,11 +103,14 @@ class AuthRepository {
         uid: uid,
         profileImageUrl: profileImageUrl,
         active: true,
+        lastSeen: DateTime.now().millisecondsSinceEpoch,
         phoneNumber: auth.currentUser!.phoneNumber!,
         groupId: [],
       );
 
       await firestore.collection('users').doc(uid).set(user.toMap());
+
+      updateUserPresence();
 
       if (!mounted) return;
       Navigator.of(context).pushNamedAndRemoveUntil(
@@ -87,7 +134,8 @@ class AuthRepository {
         context: context,
         message: 'Verifiying code...',
       );
-      final credential = PhoneAuthProvider.credential(verificationId: smsCodeId, smsCode: smsCode);
+      final credential = PhoneAuthProvider.credential(
+          verificationId: smsCodeId, smsCode: smsCode);
       await auth.signInWithCredential(credential);
       UserModel? user = await getCurrentUserInfo();
       if (!mounted) return;
@@ -102,7 +150,8 @@ class AuthRepository {
     }
   }
 
-  void sendSmsCode({required BuildContext context, required String phone}) async {
+  void sendSmsCode(
+      {required BuildContext context, required String phone}) async {
     try {
       showLoadingDialog(
         context: context,
